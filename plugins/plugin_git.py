@@ -1,12 +1,12 @@
 # Скачивание файлов из репозитория с git
 # author: Khasanov Murat
 
-import subprocess
+from git import Repo
 import sys
 import os
 
-username = 'Mura4'
-foldername = 'example'
+# URL репозитория на GitHub
+repo_url = 'https://github.com/MURA4/example'
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -26,9 +26,14 @@ def start(core:VACore):
     return manifest
 
 def download_from_git(core:VACore, phrase: str):
-    print("Загрузка кода с гита...")
-    subprocess.run("rd /s /Q example", shell=True, text=True) #удаление внутренностей папки и самой папки без подтверждения
-    subprocess.run("git clone git@github.com:%(username)s/%(foldername)s.git" % {"username": username, "foldername": foldername}, shell=True, text=True) #копирование 
-    subprocess.run("exit()", shell=True, text=True)
+    # Указываем путь к папке, куда хотим клонировать репозиторий
+    destination_folder = r'C:\\Users\\ferge\\OneDrive\\Desktop\\DIPLOM\\example'
+
+    # Клонирование репозитория
+    try:
+        Repo.clone_from(repo_url, destination_folder)
+        print(f"Репозиторий успешно клонирован в {destination_folder}")
+    except Exception as e:
+        print(f"Произошла ошибка при клонировании: {e}")
 
 
