@@ -55,7 +55,7 @@ class VACore(JaaCore):
         self.setup_assistant_voice()
 
     # ----------- process plugins functions ------
-    def process_plugin_manifest(self,modname,manifest):
+    def process_plugin_manifest(self,modname,manifest): #не используется
         # is req online?
         plugin_req_online = True
         if "require_online" in manifest:
@@ -81,7 +81,7 @@ class VACore(JaaCore):
 
     # ----------- text-to-speech functions ------
 
-    def setup_assistant_voice(self):
+    def setup_assistant_voice(self): #не используется
         self.ttss[self.ttsEngineId][0](self)
 
     def play_voice_assistant_speech(self,text_to_speech:str):

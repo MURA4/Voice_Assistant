@@ -59,8 +59,8 @@ if __name__ == "__main__":
         if args.model is None:
             args.model = "model"
         if not os.path.exists(args.model):
-            print ("Please download a model for your language from https://alphacephei.com/vosk/models")
-            print ("and unpack as 'model' in the current folder.")
+            print ("Пожалуйста, скачайте модель с https://alphacephei.com/vosk/models")
+            print ("и распакуйте как 'model' в текущей папке")
             parser.exit(0)
         if args.samplerate is None:
             device_info = sd.query_devices(args.device, 'input')
@@ -77,9 +77,9 @@ if __name__ == "__main__":
 
 
         with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8000, device=args.device, dtype='int16',
-                               channels=1, callback=callback):
+                               channels=1, callback=callback): # чтение аудиоданных в сыром, необработанном виде 
             print('#' * 80)
-            print('Press Ctrl+C to stop the recording')
+            print('Нажмите Ctrl+C для остановки записи')
             print('#' * 80)
 
             rec = vosk.KaldiRecognizer(model, args.samplerate)
@@ -109,7 +109,7 @@ if __name__ == "__main__":
                     if voice_input_str != "":
                         #print("Input: ",voice_input)
                         if core.logPolicy == "all":
-                            print("Input: ",voice_input_str)
+                            print("Input: ",voice_input_str) # это если мы хотим выводить вообще всё, что говорим, а не только то, что говорится Кате
 
                         try:
                             voice_input = voice_input_str.split(" ")

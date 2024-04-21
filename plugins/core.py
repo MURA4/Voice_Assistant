@@ -18,7 +18,7 @@ def start(core:VACore):
             #"ttsIndex": 0,
             "ttsEngineId": "pyttsx",
             "voiceAssNames": "катя|екатерина|катюша",
-            "logPolicy": "cmd", # all | cmd | none
+            "logPolicy": "cmd", # all | cmd | none  выводим только cmd, то есть команды
         },
 
     }
