@@ -28,7 +28,7 @@ if __name__ == "__main__":
             print(status, file=sys.stderr)
         if not mic_blocked:
             q.put(bytes(indata))
-
+            
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(
         '-l', '--list-devices', action='store_true',
@@ -53,14 +53,14 @@ if __name__ == "__main__":
     parser.add_argument(
         '-r', '--samplerate', type=int, help='sampling rate')
     args = parser.parse_args(remaining)
-    #args = {}
+    # args = {}
 
     try:
         if args.model is None:
             args.model = "model"
         if not os.path.exists(args.model):
-            print ("Пожалуйста, скачайте модель с https://alphacephei.com/vosk/models")
-            print ("и распакуйте как 'model' в текущей папке")
+            print("Пожалуйста, скачайте модель с https://alphacephei.com/vosk/models")
+            print("и распакуйте как 'model' в текущей папке")
             parser.exit(0)
         if args.samplerate is None:
             device_info = sd.query_devices(args.device, 'input')
@@ -74,10 +74,8 @@ if __name__ == "__main__":
         else:
             dump_fn = None
 
-
-
-        with sd.RawInputStream(samplerate=args.samplerate, blocksize = 8000, device=args.device, dtype='int16',
-                               channels=1, callback=callback): # чтение аудиоданных в сыром, необработанном виде 
+        with sd.RawInputStream(samplerate=args.samplerate, blocksize=8000, device=args.device, dtype='int16',
+                               channels=1, callback=callback):  # чтение аудиоданных в сыром, необработанном виде
             print('#' * 80)
             print('Нажмите Ctrl+C для остановки записи')
             print('#' * 80)
@@ -86,11 +84,11 @@ if __name__ == "__main__":
 
             # initing core
             core = VACore()
-            #core.init_plugin("core")
-            #core.init_plugins(["core"])
+            # core.init_plugin("core")
+            # core.init_plugins(["core"])
             core.init_with_plugins()
 
-            #core.play_wav('timer/Sounds/Loud beep.wav')
+            # core.play_wav('timer/Sounds/Loud beep.wav')
 
             while True:
                 data = q.get()
@@ -98,42 +96,41 @@ if __name__ == "__main__":
 
                     recognized_data = rec.Result()
 
-                    #print("1",recognized_data)
+                    # print("1",recognized_data)
 
-                    #print(recognized_data)
+                    # print(recognized_data)
                     recognized_data = json.loads(recognized_data)
-                    #print(recognized_data)
+                    # print(recognized_data)
                     voice_input_str = recognized_data["text"]
 
-
                     if voice_input_str != "":
-                        #print("Input: ",voice_input)
+                        # print("Input: ",voice_input)
                         if core.logPolicy == "all":
-                            print("Input: ",voice_input_str) # это если мы хотим выводить вообще всё, что говорим, а не только то, что говорится Кате
+                            # это если мы хотим выводить вообще всё, что говорим, а не только то, что говорится Кате
+                            print("Input: ", voice_input_str)
 
                         try:
                             voice_input = voice_input_str.split(" ")
-                            #callname = voice_input[0]
+                            # callname = voice_input[0]
                             for ind in range(len(voice_input)):
                                 callname = voice_input[ind]
-                                if callname in core.voiceAssNames: # найдено имя ассистента
+                                if callname in core.voiceAssNames:  # найдено имя ассистента
                                     if core.logPolicy == "cmd":
-                                        print("Input (cmd): ",voice_input_str)
+                                        print("Input (cmd): ", voice_input_str)
 
                                     mic_blocked = True
-                                    command_options = " ".join([str(input_part) for input_part in voice_input[(ind+1):len(voice_input)]])
+                                    command_options = " ".join(
+                                        [str(input_part) for input_part in voice_input[(ind+1):len(voice_input)]])
                                     core.execute_next(command_options, None)
                                     break
                         except Exception as err:
                             print(traceback.format_exc())
-                            
 
                         mic_blocked = False
                 else:
-                    #print("2",rec.PartialResult())
+                    # print("2",rec.PartialResult())
                     pass
                 core._update_timers()
-
 
                 if dump_fn is not None:
                     dump_fn.write(data)

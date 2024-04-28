@@ -131,7 +131,6 @@ class JaaCore:
                 print("JAA PLUGIN ERROR: {0} error on options processing: {1}".format(modname, str(e)))
                 return False
 
-
         # processing plugin manifest
         try:
             # set up name and version

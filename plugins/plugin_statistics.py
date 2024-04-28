@@ -6,7 +6,6 @@ import psutil
 
 from vacore import VACore
 
-
 def start(core: VACore):
     manifest = {
         "name": "Информация о системе",
@@ -15,14 +14,15 @@ def start(core: VACore):
 
         "commands": {
             "локальный адрес":  get_local_ip,
-            "загрузка процессора" : get_cpu_load,
-            "дисковое пространство" : get_disk_usage
+            "загрузка процессора": get_cpu_load,
+            "дисковое пространство": get_disk_usage
         }
     }
 
     return manifest
 
-def get_local_ip_helper(core:VACore, manifest:dict):
+
+def get_local_ip_helper(core: VACore, manifest: dict):
     try:
         # Создаем сокет
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -35,15 +35,17 @@ def get_local_ip_helper(core:VACore, manifest:dict):
         print("Ошибка при получении локального IP-адреса:", e)
         return None
 
-def get_local_ip(core:VACore, manifest:dict):
+
+def get_local_ip(core: VACore, manifest: dict):
     # Вызываем функцию для получения локального IP-адреса и выводим результат
-    local_ip = get_local_ip_helper(core,manifest)
+    local_ip = get_local_ip_helper(core, manifest)
     if local_ip:
         print("Локальный IP-адрес вашего компьютера:", local_ip)
     else:
         print("Не удалось получить локальный IP-адрес")
 
-def get_cpu_load_helper(core:VACore, manifest:dict):
+
+def get_cpu_load_helper(core: VACore, manifest: dict):
     try:
         # Получаем информацию о загрузке процессора
         cpu_load = psutil.cpu_percent(interval=1, percpu=False)
@@ -53,16 +55,16 @@ def get_cpu_load_helper(core:VACore, manifest:dict):
         return None
     # Вызываем функцию для получения загрузки процессора и выводим результат
 
-def get_cpu_load(core:VACore, manifest:dict):
-    cpu_load = get_cpu_load_helper(core,manifest)
+
+def get_cpu_load(core: VACore, manifest: dict):
+    cpu_load = get_cpu_load_helper(core, manifest)
     if cpu_load is not None:
         print("Загрузка процессора: {:.2f}%".format(cpu_load))
     else:
         print("Не удалось получить загрузку процессора")
 
-import psutil
 
-def get_disk_usage_helper(core:VACore, manifest:dict):
+def get_disk_usage_helper(core: VACore, manifest: dict):
     try:
         # Получаем информацию о дисковом пространстве
         disk_usage = psutil.disk_usage('/')
@@ -73,11 +75,13 @@ def get_disk_usage_helper(core:VACore, manifest:dict):
         print("Ошибка при получении информации о дисковом пространстве:", e)
         return None
 
-def get_disk_usage(core:VACore, manifest:dict):
+
+def get_disk_usage(core: VACore, manifest: dict):
     # Вызываем функцию для получения процента доступного дискового пространства и выводим результат
-    available_percent = get_disk_usage_helper(core,manifest)
+    available_percent = get_disk_usage_helper(core, manifest)
     if available_percent is not None:
-        print("Доступное дисковое пространство: {:.2f}%".format(available_percent))
+        print("Доступное дисковое пространство: {:.2f}%".format(
+            available_percent))
     else:
         print("Не удалось получить информацию о дисковом пространстве")
 
@@ -88,13 +92,13 @@ def get_disk_usage(core:VACore, manifest:dict):
 #     # MemUsage = subprocess.check_output(cmd, shell = True )
 #     # cmd = "df -h | awk '$NF==\"/\"{printf \"%d/%d %s\", $3,$2,$5}'"
 #     # Disk = subprocess.check_output(cmd, shell = True)
-    
+
 #     # text = "АйПи адресс: " + str(IP[0:-2]).replace(".", " точка ").replace("b'", " ") + " !"
 #     # core.play_voice_assistant_speech(text)
-    
+
 #     # text = "Загрузка процессора " + str(CPU).replace("b'", " ") + " !"
 #     # core.play_voice_assistant_speech(text)
-    
+
 #     mem = get_values_from(str(MemUsage))
 #     text = "Свободно оперативной памяти {0} из {1} {2}".format(mem[0], mem[1], compute_suffix(mem[1], ["мегабайтов", "мегабайт", "мегабайта"]))
 #     percent = int(round(float(mem[2].replace("'", ""))))
