@@ -1,5 +1,5 @@
 # Команды управления мультимедия
-# author: Vladislav Janvarev
+# author: Khasanov Murat (inspired by Vladislav Janvarev)
 
 import pyautogui
 #from voiceassmain import play_voice_assistant_speech

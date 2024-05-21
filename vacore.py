@@ -1,6 +1,6 @@
 import os
 import traceback
-
+from threading import Timer
 import time
 
 import sounddevice as sound_device
@@ -26,10 +26,12 @@ class VACore(JaaCore):
         }
 
         # more options
+        self.contextRemoteWaitForCall = False
         self.mpcHcPath = ""
         self.mpcIsUse = False
         self.mpcIsUseHttpRemote = False
-
+        self.remoteTTS = "none"
+        self.remoteTTSResult = None
         self.isOnline = False
         self.version = version
 
@@ -38,6 +40,9 @@ class VACore(JaaCore):
         self.ttsEngineId = ""
 
         self.logPolicy = ""
+        
+        self.contextTimer = None
+        self.contextTimerLastDuration = 0
 
         import mpcapi.core
         self.mpchc = mpcapi.core.MpcAPI()
@@ -85,7 +90,94 @@ class VACore(JaaCore):
         self.ttss[self.ttsEngineId][0](self)
 
     def play_voice_assistant_speech(self,text_to_speech:str):
-        self.ttss[self.ttsEngineId][1](self,text_to_speech)
+        self.lastSay = text_to_speech
+        remoteTTSList = self.remoteTTS.split(",")
+
+        self.remoteTTSResult = {}
+        is_processed = False
+        if "none" in remoteTTSList: # no remote tts, do locally anything
+            #self.remoteTTSResult = "" # anywhere, set it ""
+
+            if self.ttss[self.ttsEngineId][1] != None:
+                self.ttss[self.ttsEngineId][1](self,text_to_speech)
+            else:
+                if self.useTTSCache:
+                    tts_file = self.get_tts_cache_file(text_to_speech)
+                else:
+                    tts_file = self.get_tempfilename()+".wav"
+
+                #print('Temp TTS filename: ', tts_file)
+                if not self.useTTSCache or self.useTTSCache and not os.path.exists(tts_file):
+                    self.tts_to_filewav(text_to_speech, tts_file)
+
+                self.play_wav(tts_file)
+                if not self.useTTSCache and os.path.exists(tts_file):
+                    os.unlink(tts_file)
+
+            is_processed = True
+
+        if "saytxt" in remoteTTSList: # return only last say txt
+            self.remoteTTSResult["restxt"] = text_to_speech
+
+            is_processed = True
+
+        if "saywav" in remoteTTSList:
+            if self.useTTSCache:
+                tts_file = self.get_tts_cache_file(text_to_speech)
+            else:
+                tts_file = self.get_tempfilename()+".wav"
+
+            if not self.useTTSCache or self.useTTSCache and not os.path.exists(tts_file):
+                self.tts_to_filewav(text_to_speech, tts_file)
+            #self.play_wav(tts_file)
+            import base64
+
+            with open(tts_file, "rb") as wav_file:
+                encoded_string = base64.b64encode(wav_file.read())
+
+            if not self.useTTSCache and os.path.exists(tts_file):
+                os.unlink(tts_file)
+
+            self.remoteTTSResult["wav_base64"] = encoded_string
+
+            is_processed = True
+
+        if not is_processed:
+            print("Ошибка при выводе TTS - remoteTTS не был обработан.")
+            print("Текущий remoteTTS: {}".format(self.remoteTTS))
+            print("Текущий remoteTTSList: {}".format(remoteTTSList))
+            print("Ожидаемый remoteTTS (например): 'none'")
+
+
+
+        
+    def context_set(self,context,duration = None):
+        if duration == None:
+            duration = self.contextDefaultDuration
+
+        self.context_clear()
+
+        self.context = context
+        self.contextTimerLastDuration = duration
+        self.contextTimer = Timer(duration,self._context_clear_timer)
+
+        remoteTTSList = self.remoteTTS.split(",")
+        if self.contextRemoteWaitForCall and ("saytxt" in remoteTTSList or "saywav" in remoteTTSList):
+            pass # wait for run context timer
+        else:
+            self.contextTimer.start()
+            
+        #def _timer_context
+    def _context_clear_timer(self):
+        print("Context cleared after timeout")
+        self.contextTimer = None
+        self.context_clear()
+
+    def context_clear(self):
+        self.context = None
+        if self.contextTimer != None:
+            self.contextTimer.cancel()
+            self.contextTimer = None
 
     def say(self,text_to_speech:str): # alias for play_voice_assistant_speech
         self.play_voice_assistant_speech(text_to_speech)
@@ -111,7 +203,7 @@ class VACore(JaaCore):
                 for key in keys:
                     if command.startswith(key):
                         rest_phrase = command[(len(key)+1):]
-                        next_context = context[keyall]
+                        next_context = context[keyall] #здесь вызывается то, что лежит по ключу keyall
                         self.execute_next(rest_phrase,next_context)
                         #print(next_context)
                         #print(rest_phrase)

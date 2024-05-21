@@ -1,5 +1,5 @@
 # Приветствие (и демо-плагин)
-# author: Vladislav Janvarev (inspired by EnjiRouz)
+# author: Khasanov Murat (inspired by EnjiRouz)
 
 import random
 from vacore import VACore
@@ -26,4 +26,4 @@ def play_greetings(core:VACore, phrase: str): # в phrase находится о�
         "Рада тебя видеть!",
     ]
     core.play_voice_assistant_speech(greetings[random.randint(0, len(greetings) - 1)])
-    print("Команда приветствия")
+    # print("Команда приветствия")

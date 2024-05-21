@@ -1,5 +1,5 @@
 # TTS plugin for pyttsx3 engine
-# author: Vladislav Janvarev
+# author: Khasanov Murat (inspired by Vladislav Janvarev)
 
 import os
 

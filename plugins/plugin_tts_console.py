@@ -1,5 +1,5 @@
 # TTS plugin - just console output for debugging
-# author: Vladislav Janvarev
+# author: Khasanov Murat (inspired by Vladislav Janvarev)
 
 import os
 

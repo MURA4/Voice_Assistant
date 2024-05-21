@@ -1,5 +1,5 @@
 # Timer
-# author: Vladislav Janvarev
+# author: Khasanov Murat (inspired by Vladislav Janvarev)
 
 import time
 import os

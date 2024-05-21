@@ -1,5 +1,5 @@
 # Core plugin
-# author: Vladislav Janvarev
+# author: Khasanov Murat (inspired by Vladislav Janvarev)
 
 from vacore import VACore
 
@@ -13,11 +13,10 @@ def start(core:VACore):
             "mpcIsUse": True,
             "mpcHcPath": "C:\Program Files (x86)\K-Lite Codec Pack\MPC-HC64\mpc-hc64_nvo.exe",
             "mpcIsUseHttpRemote": False,
-
             "isOnline": True,
             #"ttsIndex": 0,
             "ttsEngineId": "pyttsx",
-            "voiceAssNames": "катя|екатерина|катюша",
+            "voiceAssNames": "катя|екатерина|катюша", #возможные имена голосового помощника
             "logPolicy": "cmd", # all | cmd | none  выводим только cmd, то есть команды
         },
 

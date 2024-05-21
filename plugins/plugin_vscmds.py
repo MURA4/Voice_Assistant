@@ -12,7 +12,6 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 # функция на старте
 
-
 def start(core: VACore):
     manifest = {
         "name": "Команды управления visual studio",
@@ -69,12 +68,13 @@ def global_search(core: VACore, phrase: str):
     pyautogui.hotkey(['ctrl', 'shift', 'f'])
 
 
+def format_code(core: VACore, phrase: str):
+    print("Команда форматирования кода")
+    pyautogui.hotkey(['shift', 'alt', 'f'])
+    
+
 def goodbye(core: VACore, phrase: str):
     print("Программа завершается")
     sys.exit(0)  # Аргумент 0 означает нормальное завершение работы
 
-
-def format_code(core: VACore, phrase: str):
-    print("Команда форматирования кода")
-    pyautogui.hotkey(['shift', 'alt', 'f'])
 

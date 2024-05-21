@@ -41,7 +41,7 @@ def record_and_recognize_audio(*args: tuple):
 
         return recognized_data
 
-# ------------------- vosk ------------------
+# ------------------- speech_recognition ------------------
 if __name__ == "__main__":
     # инициализация инструментов распознавания и ввода речи
     recognizer = speech_recognition.Recognizer()

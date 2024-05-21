@@ -87,7 +87,7 @@ class JaaCore:
 
         # run start function
         try:
-            res = mod.start(self)
+            res = mod.start(self) #сюда сохранили
         except Exception as e:
             print("JAA PLUGIN ERROR: {0} error on start: {1}".format(modname, str(e)))
             return False

@@ -1,5 +1,5 @@
 # Информация о системе
-# author: Murat Khasanov (inspired by Oleg Bakharev)
+# author: Murat Khasanov
 
 import socket
 import psutil
