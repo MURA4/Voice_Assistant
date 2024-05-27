@@ -13,14 +13,19 @@ def start(core: VACore):
         "require_online": False,
 
         "commands": {
-            "локальный адрес":  get_local_ip,
-            "загрузка процессора": get_cpu_load,
-            "дисковое пространство": get_disk_usage
+            "выведи мой ай пи|выведи мой эй пи":  get_local_ip,
+            "выведи загрузку процессора|выведи загрузка процессора": get_cpu_load,
+            "выведи дисковое пространство": get_disk_usage,
+            "выведи информацию о системе": get_full_info
         }
     }
 
     return manifest
 
+def get_full_info(core: VACore, manifest: dict):
+    get_local_ip
+    get_cpu_load
+    get_disk_usage
 
 def get_local_ip_helper(core: VACore, manifest: dict):
     try:

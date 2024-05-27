@@ -1,5 +1,4 @@
 # Яндекс.Расписания - работает точно для электричек
-# author: Vladislav Janvarev
 
 import os
 

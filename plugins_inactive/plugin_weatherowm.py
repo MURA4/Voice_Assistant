@@ -1,5 +1,4 @@
 # Погода через OpenWeatherMap (https://openweathermap.org/)
-# author: Vladislav Janvarev
 
 # работает без пакета pyowm! на прямых запросах
 

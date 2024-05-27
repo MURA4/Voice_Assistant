@@ -1,5 +1,4 @@
 # Проигрывание музыки/видео
-# author: Vladislav Janvarev
 
 import subprocess
 

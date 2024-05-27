@@ -1,5 +1,4 @@
 # TTS plugin for silero engine
-# author: Vladislav Janvarev
 
 # require torch 1.8+
 

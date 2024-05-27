@@ -20,8 +20,8 @@ def start(core: VACore):
         "commands": {
             "запуск кода|запусти код": run_file,
             "отладка|отладка кода|сделай отладку": debug_file,
-            "вкладка": tab,
-            "окно": window,
+            "переключи вкладку|переключив вкладку": tab,
+            "переключи окно|переключив окно": window,
             "структура проекта|открой структуру проекта": structure_of_project,
             "поиск|поиск по коду": search,
             "глобальный поиск|глобальный поиск по коду": global_search,
@@ -69,12 +69,12 @@ def global_search(core: VACore, phrase: str):
 
 
 def format_code(core: VACore, phrase: str):
-    print("Команда форматирования кода")
+    print("Код отформатирован")
     pyautogui.hotkey(['shift', 'alt', 'f'])
     
 
 def goodbye(core: VACore, phrase: str):
-    print("Программа завершается")
+    print("До скорых встреч!")
     sys.exit(0)  # Аргумент 0 означает нормальное завершение работы
 
 

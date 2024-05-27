@@ -19,7 +19,7 @@ def start(core:VACore):
         "version": "1.0",
         "require_online": False,
         "commands": {
-            "скачай|скачай код с гита": download_from_git,
+            "скачай|скачай код": download_from_git,
         }
     }
 
@@ -27,7 +27,7 @@ def start(core:VACore):
 
 def download_from_git(core:VACore, phrase: str):
     # Указываем путь к папке, куда хотим клонировать репозиторий
-    destination_folder = r'C:\\Users\\ferge\\OneDrive\\Desktop\\DIPLOM\\example'
+    destination_folder = r'C:\\Users\\ferge\\OneDrive\\Desktop\\DIPLOM\\example\\example'
 
     # Клонирование репозитория
     try:
